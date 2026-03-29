@@ -1,12 +1,13 @@
 import React from 'react'
-import { testimonials } from '../data/DummyData'
 import { FormatQuote } from '@mui/icons-material'
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
+import { useFetch } from '../../hooks/useFetch';
 
 export const Testimonials = () => {
+    const { data: testimonials, loading } = useFetch('/api/testimonials');
+    
     const settings = {
         dots: false,
         infinite: true,
@@ -14,6 +15,9 @@ export const Testimonials = () => {
         slidesToShow: 1,
         slidesToScroll: 1
       };
+
+    if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Loading...</div>;
+
   return (
     <>
     <section className='testimonials hero'>
@@ -21,7 +25,7 @@ export const Testimonials = () => {
             
         <Slider {...settings}>
             {testimonials.map((val) => (
-                <div className='box'>
+                <div key={val.id} className='box'>
                     <i data-aos="zoom-out-up">
                         <FormatQuote />
                     </i>

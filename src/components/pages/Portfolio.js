@@ -1,23 +1,31 @@
-
-import React, { useState } from 'react'
-import { portfolio } from "../data/DummyData"
+import React, { useState, useEffect } from 'react'
 import { Visibility } from '@mui/icons-material'
 import { Heading } from '../common/Heading'
+import { useFetch } from '../../hooks/useFetch'
 
-const allCategory = ['all', ...new Set(portfolio.map((item) => item.category))]
 export const Portfolio = () => {
-    const[list, setList] = useState(portfolio)
-    const[category, setCategory] = useState(allCategory)
-    console.log(setCategory)
+    const { data: portfolioItems, loading } = useFetch('/api/portfolio');
+    const [list, setList] = useState([])
+    const [category, setCategory] = useState(['all'])
 
-    const filterItems = (category) => {
-        const newItems = portfolio.filter((item) => item.category === category)
-        setList(newItems)
+    useEffect(() => {
+        if (portfolioItems && portfolioItems.length > 0) {
+            setList(portfolioItems);
+            setCategory(['all', ...new Set(portfolioItems.map((item) => item.category))]);
+        }
+    }, [portfolioItems]);
 
-        if (category === "all") {
-            setList(portfolio)
+    const filterItems = (cat) => {
+        if (cat === "all") {
+            setList(portfolioItems)
+        } else {
+            const newItems = portfolioItems.filter((item) => item.category === cat)
+            setList(newItems)
         }
     }
+
+    if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Loading...</div>;
+
   return(
    <>
   <article>

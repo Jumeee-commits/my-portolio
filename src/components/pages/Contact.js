@@ -11,16 +11,19 @@ export const Contact = () => {
         setIsSubmitting(true);
         setResult("Sending....");
         
-        const formData = new FormData(event.target);
-        
-        // Use the environment variable, or fallback to the exposed one if missing in dev
-        const apiKey = process.env.REACT_APP_WEB3FORMS_KEY || "4a0918c4-8a6b-4fe7-b502-658cf628451c";
-        formData.append("access_key", apiKey);
+        const formObj = {
+            name: event.target.name.value,
+            email: event.target.email.value,
+            subject: event.target.subject.value,
+            message: event.target.message.value
+        };
 
         try {
-            const response = await fetch("https://api.web3forms.com/submit", {
+            const apiUrl = process.env.REACT_APP_API_URL || 'https://my-portolio-ulg3.vercel.app';
+            const response = await fetch(`${apiUrl}/api/contact`, {
                 method: "POST",
-                body: formData
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formObj)
             });
 
             const data = await response.json();
