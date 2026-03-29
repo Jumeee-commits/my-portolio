@@ -32,16 +32,16 @@ export const Portfolio = () => {
     <div className="container">
         <Heading title='Portfolio'/>
         <div className="catButton">
-            {category.map((category) =>(
-                <button className='primaryBtn' onClick={() => filterItems(category) } data-aos="zoom-out-down">
-                    {category}
+            {category.map((cat, index) =>(
+                <button key={index} className='primaryBtn' onClick={() => filterItems(cat) } data-aos="zoom-out-down">
+                    {cat}
                 </button>
             ))}
             </div>
     
     <div className="content grid3">
-        {list.map((item) => (
-            <div className='box' data-aos="fade-up">
+        {list.map((item, index) => (
+            <div key={item._id || index} className='box' data-aos="fade-up">
                 <div className='img'>
                     <img src= {item.cover} alt='' />
                 </div>

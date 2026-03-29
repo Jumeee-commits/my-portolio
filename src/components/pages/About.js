@@ -7,7 +7,7 @@ export const About = () => {
   <section className="about">
     <div className='container flex'>
         {about.map((val, i) =>(
-            <>
+            <React.Fragment key={i}>
                 <div className="left">
                     <img src={val.cover} alt='' data-aos="fade-down-right"/>
                 </div>

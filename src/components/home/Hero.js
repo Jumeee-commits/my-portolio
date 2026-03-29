@@ -6,7 +6,7 @@ export const Hero = () => {
   <>
   <section className="hero">
     {home.map((val,i) =>(
-        <div className='heroContainer'>
+        <div key={i} className='heroContainer'>
             <h3 data-aos="fade-right">{val.text}</h3>
             <h1>
                 <Typewriter options={{ strings: [`${val.name}`,  `${val.design}`, `${val.post}`],
