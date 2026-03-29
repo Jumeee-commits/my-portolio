@@ -12,8 +12,8 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-// Allow requests from localhost:3000 (React frontend)
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000' }));
+// Allow requests from any origin to prevent CORS header errors
+app.use(cors());
 
 // Rate limiting (prevent spam)
 const apiLimiter = rateLimit({
