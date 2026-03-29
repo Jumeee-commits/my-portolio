@@ -18,6 +18,19 @@ import { Footer } from '../common/Footer';
 import { AdminApp } from '../admin/AdminApp';
 
  const Pages = () => {
+  const isAdminOnly = process.env.REACT_APP_IS_ADMIN === 'true';
+
+  if (isAdminOnly) {
+    return (
+      <Router>
+        <Switch>
+          {/* Automatically route everything in this deployment to the Admin Panel */}
+          <Route path="/" component={AdminApp}/>
+        </Switch>
+      </Router>
+    );
+  }
+
   return (
      <> 
      <Router> 
