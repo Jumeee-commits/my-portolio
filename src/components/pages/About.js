@@ -22,7 +22,7 @@ export const About = () => {
                         <button className='primaryBtn'>Download CV</button>
                     </a>
                 </div>
-            </>
+            </React.Fragment>
         ))}
     </div>
 </section>
