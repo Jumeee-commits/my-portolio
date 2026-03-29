@@ -41,6 +41,7 @@ const CrudManager = ({ resource, token }) => {
 
   useEffect(() => {
     fetchItems();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resource]);
 
   const fetchItems = async () => {
