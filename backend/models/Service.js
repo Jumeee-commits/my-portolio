@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const ServiceSchema = new mongoose.Schema({
-  id: { type: Number, required: true, unique: true },
+  id: { type: Number, default: () => Date.now() },
   iconName: { type: String, required: true }, // MUI icon name as string
   title: { type: String, required: true },
   desc: { type: String, required: true },

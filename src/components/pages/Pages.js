@@ -15,6 +15,8 @@ import { Testimonials } from './Testimonials';
 import { Blog } from './Blog';
 import { Contact } from './Contact';
 import { Footer } from '../common/Footer';
+import { AdminApp } from '../admin/AdminApp';
+
  const Pages = () => {
   return (
      <> 
@@ -29,6 +31,7 @@ import { Footer } from '../common/Footer';
         <Route exact path='/testimonials' component={Testimonials}/>
         <Route exact path='/blog' component={Blog}/>
         <Route exact path='/contact' component={Contact}/>
+        <Route exact path='/admin' component={AdminApp}/>
       </Switch>
       <Footer />
    </Router>
