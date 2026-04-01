@@ -417,17 +417,25 @@ footer i{
 }
 @media screen and (max-width: 768px) {
   .hero {
-    height: 60vh;
+    height: auto;
+    min-height: 60vh;
+    padding: 100px 0;
   }
   .heroContainer {
-    max-width: 80%;
+    max-width: 90%;
   }
-  .hero::after{
-    height: 60vh;
+  .hero::after {
+    height: 100%;
   }
-  section{
+  .hero h1 {
+    font-size: 40px;
+  }
+  section {
     height: auto;
-    padding-top: 50px;
+    padding: 60px 0;
+  }
+  .container {
+    max-width: 90%;
   }
   .contact .flexsb,
   .about .flex {
@@ -440,5 +448,47 @@ footer i{
   .grid3,
   .grid4 {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .about .primaryBtn {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+  .testimonials .box {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+  .heading {
+    font-size: 24px;
+    margin-bottom: 40px;
+  }
+  .grid3,
+  .grid4 {
+    grid-template-columns: 1fr;
+  }
+  .services .box {
+    padding: 25px;
+  }
+  .testimonials .img {
+    width: 100px;
+    height: 100px;
+  }
+  .testimonials img {
+    width: 80px;
+    height: 80px;
+  }
+  footer {
+    padding: 40px 20px;
+  }
+  .catButton {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .catButton button {
+    margin: 0;
   }
 }
