@@ -55,6 +55,13 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  React.useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -273,52 +280,48 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
         }}
       >
         <div>
-          <p style={{ color: 'rgba(255,255,255,0.35)', margin: 0, fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
-            {items.length} {items.length === 1 ? 'record' : 'records'} found
+          <p style={{ color: 'rgba(255,255,255,0.35)', margin: 0, fontSize: isMobile ? '0.7rem' : '0.8rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            {items.length} {items.length === 1 ? 'record' : 'records'}
           </p>
         </div>
-        <button
-          onClick={() => handleOpenModal()}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '10px 22px',
-            background: `linear-gradient(135deg, ${accentColor.from}, ${accentColor.to})`,
-            color: '#1a1a2e',
-            border: 'none',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            fontWeight: '700',
-            fontSize: '0.875rem',
-            letterSpacing: '0.3px',
-            boxShadow: `0 4px 20px rgba(0,0,0,0.3)`,
-            transition: 'transform 0.15s, opacity 0.15s',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
-        >
-          <span style={{ fontSize: '18px', lineHeight: 1 }}>＋</span>
-          Add New
-        </button>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <button
+            onClick={() => handleOpenModal()}
+            style={{
+              padding: isMobile ? '8px 16px' : '10px 22px',
+              background: `linear-gradient(135deg, ${accentColor.from}, ${accentColor.to})`,
+              color: '#1a1a2e',
+              border: 'none',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              fontWeight: '700',
+              fontSize: '0.875rem',
+              letterSpacing: '0.3px',
+              boxShadow: `0 4px 20px rgba(0,0,0,0.3)`,
+              transition: 'transform 0.15s, opacity 0.15s',
+            }}
+          >
+            {isMobile ? '＋' : '＋ Add New'}
+          </button>
 
-        {/* Cloudinary Config Button */}
-        <button
-          onClick={() => setShowConfig(true)}
-          style={{
-            padding: '8px 16px',
-            background: 'rgba(255,255,255,0.05)',
-            border: '1px solid rgba(255,255,255,0.1)',
-            color: 'rgba(255,255,255,0.6)',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '0.8rem',
-            fontWeight: '600',
-            marginLeft: 'auto'
-          }}
-        >
-          ⚙️ Upload Setup
-        </button>
+          {/* Cloudinary Config Button */}
+          <button
+            onClick={() => setShowConfig(true)}
+            style={{
+              padding: '8px 12px',
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.6)',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+            }}
+            title="Setup Uploads"
+          >
+            ⚙️
+          </button>
+        </div>
       </div>
 
 
@@ -413,7 +416,6 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                 <td style={{ padding: '14px 16px', textAlign: 'right', whiteSpace: 'nowrap' }}>
                   {deleteConfirmId === item._id ? (
                     <span style={{ display: 'inline-flex', gap: '8px', alignItems: 'center' }}>
-                      <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem' }}>Confirm?</span>
                       <button
                         onClick={() => handleDelete(item._id)}
                         style={{
@@ -427,7 +429,7 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                           fontWeight: '600',
                         }}
                       >
-                        Yes
+                        {isMobile ? '✓' : 'Yes'}
                       </button>
                       <button
                         onClick={() => setDeleteConfirmId(null)}
@@ -442,7 +444,7 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                           fontWeight: '600',
                         }}
                       >
-                        No
+                        {isMobile ? '✕' : 'No'}
                       </button>
                     </span>
                   ) : (
@@ -450,7 +452,7 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                       <button
                         onClick={() => handleOpenModal(item)}
                         style={{
-                          padding: '6px 14px',
+                          padding: isMobile ? '6px 10px' : '6px 14px',
                           background: 'rgba(102,126,234,0.15)',
                           border: '1px solid rgba(102,126,234,0.35)',
                           color: '#a5b4fc',
@@ -458,17 +460,14 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                           cursor: 'pointer',
                           fontSize: '0.8rem',
                           fontWeight: '600',
-                          transition: 'all 0.2s',
                         }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(102,126,234,0.3)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(102,126,234,0.15)'; }}
                       >
-                        ✏️ Edit
+                        {isMobile ? '✏️' : '✏️ Edit'}
                       </button>
                       <button
                         onClick={() => setDeleteConfirmId(item._id)}
                         style={{
-                          padding: '6px 14px',
+                          padding: isMobile ? '6px 10px' : '6px 14px',
                           background: 'rgba(231,76,60,0.12)',
                           border: '1px solid rgba(231,76,60,0.3)',
                           color: '#ff6b6b',
@@ -476,12 +475,9 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                           cursor: 'pointer',
                           fontSize: '0.8rem',
                           fontWeight: '600',
-                          transition: 'all 0.2s',
                         }}
-                        onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(231,76,60,0.25)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(231,76,60,0.12)'; }}
                       >
-                        🗑 Delete
+                        {isMobile ? '🗑' : '🗑 Delete'}
                       </button>
                     </span>
                   )}
@@ -517,7 +513,7 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '20px',
               width: '100%',
-              maxWidth: '520px',
+              maxWidth: isMobile ? '95%' : '520px',
               maxHeight: '92vh',
               overflowY: 'auto',
               boxShadow: '0 30px 80px rgba(0,0,0,0.6)',
@@ -526,7 +522,7 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
             {/* Modal Header */}
             <div
               style={{
-                padding: '28px 32px 20px',
+                padding: isMobile ? '20px' : '28px 32px 20px',
                 borderBottom: '1px solid rgba(255,255,255,0.07)',
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -538,14 +534,14 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                   style={{
                     margin: 0,
                     color: '#ffffff',
-                    fontSize: '1.25rem',
+                    fontSize: isMobile ? '1.1rem' : '1.25rem',
                     fontWeight: '700',
                   }}
                 >
-                  {editingId ? '✏️ Edit Record' : '➕ Add New Record'}
+                  {editingId ? (isMobile ? '✏️ Edit' : '✏️ Edit Record') : (isMobile ? '➕ Add' : '➕ Add New Record')}
                 </h2>
-                <p style={{ margin: '4px 0 0', color: 'rgba(255,255,255,0.35)', fontSize: '0.8rem', textTransform: 'capitalize' }}>
-                  {resource} · {editingId ? 'Update existing entry' : 'Create a new entry'}
+                <p style={{ margin: '4px 0 0', color: 'rgba(255,255,255,0.35)', fontSize: '0.75rem', textTransform: 'capitalize' }}>
+                  {resource}
                 </p>
               </div>
               <button
@@ -572,9 +568,8 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
               </button>
             </div>
 
-            {/* Modal Body */}
             <form onSubmit={handleSubmit}>
-              <div style={{ padding: '24px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ padding: isMobile ? '20px' : '24px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 {schema.map((field) => (
                   <div key={field.name}>
                     <label
@@ -660,11 +655,11 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                     ) : field.type === 'image' ? (
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {/* URL / Preview Box */}
-                        <div style={{ display: 'flex', gap: '12px' }}>
+                        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '12px' }}>
                           <div
                             style={{
-                              width: '80px',
-                              height: '80px',
+                              width: isMobile ? '100%' : '80px',
+                              height: isMobile ? '120px' : '80px',
                               background: 'rgba(0,0,0,0.2)',
                               border: '1px solid rgba(255,255,255,0.1)',
                               borderRadius: '12px',
@@ -768,7 +763,7 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
               {/* Modal Footer */}
               <div
                 style={{
-                  padding: '20px 32px 28px',
+                  padding: isMobile ? '20px' : '20px 32px 28px',
                   borderTop: '1px solid rgba(255,255,255,0.07)',
                   display: 'flex',
                   justifyContent: 'flex-end',

@@ -10,49 +10,6 @@ const styles = {
     fontFamily: "'Inter', 'Segoe UI', sans-serif",
     padding: '20px',
   },
-  card: {
-    background: 'rgba(255,255,255,0.05)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255,255,255,0.1)',
-    borderRadius: '20px',
-    padding: '50px 40px',
-    width: '100%',
-    maxWidth: '420px',
-    boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
-  },
-  logoWrap: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginBottom: '30px',
-  },
-  logoCircle: {
-    width: '64px',
-    height: '64px',
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #f9d423, #e0a80d)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: '28px',
-    boxShadow: '0 0 30px rgba(224,168,13,0.4)',
-  },
-  title: {
-    color: '#ffffff',
-    fontSize: '1.75rem',
-    fontWeight: '700',
-    textAlign: 'center',
-    margin: '0 0 6px 0',
-    letterSpacing: '-0.5px',
-  },
-  subtitle: {
-    color: 'rgba(255,255,255,0.45)',
-    fontSize: '0.875rem',
-    textAlign: 'center',
-    marginBottom: '36px',
-    letterSpacing: '0.5px',
-    textTransform: 'uppercase',
-  },
   label: {
     display: 'block',
     color: 'rgba(255,255,255,0.6)',
@@ -110,10 +67,18 @@ const styles = {
   },
 };
 
-const AdminLogin = ({ setToken }) => {
+const AdminLogin = ({ onLogin }) => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  React.useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();

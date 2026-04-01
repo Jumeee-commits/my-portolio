@@ -19,6 +19,13 @@ const tabColors = {
 
 const AdminDashboard = ({ token, onLogout }) => {
   const [activeTab, setActiveTab] = useState('services');
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  React.useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const activeColor = tabColors[activeTab];
 
@@ -37,7 +44,7 @@ const AdminDashboard = ({ token, onLogout }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 40px',
+          padding: isMobile ? '0 20px' : '0 40px',
           height: '68px',
           background: 'rgba(255,255,255,0.03)',
           borderBottom: '1px solid rgba(255,255,255,0.07)',
@@ -65,7 +72,7 @@ const AdminDashboard = ({ token, onLogout }) => {
           >
             ⚡
           </div>
-          <div>
+          <div style={{ display: isMobile ? 'none' : 'block' }}>
             <div style={{ color: '#ffffff', fontWeight: '700', fontSize: '1rem', lineHeight: 1.2 }}>
               Admin Portal
             </div>
@@ -77,20 +84,22 @@ const AdminDashboard = ({ token, onLogout }) => {
 
         {/* Right side */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '8px',
-              padding: '6px 14px',
-            }}
-          >
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#2ecc71', boxShadow: '0 0 6px #2ecc71', display: 'inline-block' }} />
-            <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}>Administrator</span>
-          </div>
+          {!isMobile && (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'rgba(255,255,255,0.06)',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '8px',
+                padding: '6px 14px',
+              }}
+            >
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#2ecc71', boxShadow: '0 0 6px #2ecc71', display: 'inline-block' }} />
+              <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.8rem' }}>Administrator</span>
+            </div>
+          )}
           <button
             onClick={onLogout}
             style={{
@@ -108,20 +117,20 @@ const AdminDashboard = ({ token, onLogout }) => {
             onMouseEnter={(e) => { e.target.style.background = 'rgba(231,76,60,0.3)'; }}
             onMouseLeave={(e) => { e.target.style.background = 'rgba(231,76,60,0.15)'; }}
           >
-            Sign Out
+            {isMobile ? 'Exit' : 'Sign Out'}
           </button>
         </div>
       </header>
 
       {/* ── Main Body ── */}
-      <main style={{ padding: '40px', maxWidth: '1400px', margin: '0 auto' }}>
+      <main style={{ padding: isMobile ? '20px' : '40px', maxWidth: '1400px', margin: '0 auto' }}>
 
         {/* Section Header */}
-        <div style={{ marginBottom: '32px' }}>
+        <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
           <h1
             style={{
               color: '#ffffff',
-              fontSize: '1.75rem',
+              fontSize: isMobile ? '1.4rem' : '1.75rem',
               fontWeight: '700',
               margin: '0 0 6px 0',
               letterSpacing: '-0.5px',
@@ -139,8 +148,8 @@ const AdminDashboard = ({ token, onLogout }) => {
               {activeTab}
             </span>
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.4)', margin: 0, fontSize: '0.9rem' }}>
-            Create, edit, and manage your {activeTab} content from one place.
+          <p style={{ color: 'rgba(255,255,255,0.4)', margin: 0, fontSize: isMobile ? '0.8rem' : '0.9rem' }}>
+            {isMobile ? `Manage ${activeTab} content.` : `Create, edit, and manage your ${activeTab} content from one place.`}
           </p>
         </div>
 
@@ -150,13 +159,17 @@ const AdminDashboard = ({ token, onLogout }) => {
             display: 'flex',
             gap: '10px',
             marginBottom: '28px',
-            flexWrap: 'wrap',
+            overflowX: 'auto',
+            padding: '8px',
             background: 'rgba(255,255,255,0.03)',
             border: '1px solid rgba(255,255,255,0.07)',
             borderRadius: '14px',
-            padding: '8px',
+            msOverflowStyle: 'none',
+            scrollbarWidth: 'none',
           }}
+          className="admin-tabs"
         >
+          <style>{`.admin-tabs::-webkit-scrollbar { display: none; }`}</style>
           {tabs.map((tab) => {
             const isActive = activeTab === tab;
             const c = tabColors[tab];
@@ -168,7 +181,7 @@ const AdminDashboard = ({ token, onLogout }) => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '10px 20px',
+                  padding: isMobile ? '8px 16px' : '10px 20px',
                   borderRadius: '10px',
                   border: 'none',
                   cursor: 'pointer',
@@ -177,17 +190,12 @@ const AdminDashboard = ({ token, onLogout }) => {
                   letterSpacing: '0.3px',
                   transition: 'all 0.25s ease',
                   textTransform: 'capitalize',
+                  whiteSpace: 'nowrap',
                   background: isActive
                     ? `linear-gradient(135deg, ${c.from}, ${c.to})`
                     : 'transparent',
                   color: isActive ? '#ffffff' : 'rgba(255,255,255,0.45)',
                   boxShadow: isActive ? `0 4px 15px rgba(0,0,0,0.3)` : 'none',
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.8)';
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) e.currentTarget.style.color = 'rgba(255,255,255,0.45)';
                 }}
               >
                 <span style={{ fontSize: '16px' }}>{tabIcons[tab]}</span>
@@ -204,7 +212,7 @@ const AdminDashboard = ({ token, onLogout }) => {
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: '16px',
-            padding: '32px',
+            padding: isMobile ? '20px' : '32px',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
           }}
         >
