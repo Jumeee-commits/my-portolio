@@ -32,19 +32,6 @@ const base = {
   fontFamily: "'Inter', 'Segoe UI', sans-serif",
 };
 
-const pill = (bg, color) => ({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '4px 12px',
-  borderRadius: '20px',
-  fontSize: '0.75rem',
-  fontWeight: '600',
-  background: bg,
-  color,
-  letterSpacing: '0.3px',
-});
-
 /* ─────────────────── Component ─────────────────── */
 const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e0a80d' } }) => {
   const [items, setItems] = useState([]);
