@@ -36,14 +36,14 @@ export const home = [
     name: "ALAO MICHAEL",
     post: "WEB DEVELOPER",
     design: "DIGITAL MARKETER",
-    specialist: "E-COMMERCE OPTIMIZATION SPECIALIST",
+    specialist: "E-COMMERCE GROWTH SPECIALIST",
     desc: "Results-driven Web Developer, Digital Marketer, and E-commerce Optimization Specialist with expertise in building high-performing websites, executing data-driven marketing strategies, and optimizing online stores for maximum conversion and revenue growth. Skilled in UX improvement, performance analytics, SEO, paid campaigns, and merchandising strategies that enhance user experience and drive measurable business results",
   },
 ]
 export const about = [
   {
-    desc: "Hardworking and passionate job seeker with strong organizational skills, eager to secure an entry-level position. With a background in web design, project management, and digital marketing, I am ready to contribute to a team and help achieve company goals. My proficiency in CSS technologies, HTML, JavaScript, and ReactJs enables me to create attractive and user-friendly websites.",
-    desc1: " As a Google certified Data Scientist and digital marketer, I bring a data-driven and strategic approach to problem-solving.",
+    desc: "Versatile Web Developer skilled in the MERN stack (MongoDB, Express, React, Node.js) with a strong foundation in building scalable, user-focused applications. Google-certified Digital Marketer experienced in performance marketing, SEO, and data-driven campaign strategy. Data Scientist proficient in analytics, visualization, and actionable insights",
+    desc1: " As an E-commerce Growth Specialist, I optimize conversion funnels, merchandising, and customer journeys to drive revenue, improve retention, and accelerate sustainable business growth.",
     cover: "./images/man.png",
   },
 ]
