@@ -1,44 +1,190 @@
 import React, { useState } from 'react';
 
+const styles = {
+  page: {
+    minHeight: '100vh',
+    background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: "'Inter', 'Segoe UI', sans-serif",
+    padding: '20px',
+  },
+  card: {
+    background: 'rgba(255,255,255,0.05)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '20px',
+    padding: '50px 40px',
+    width: '100%',
+    maxWidth: '420px',
+    boxShadow: '0 25px 60px rgba(0,0,0,0.5)',
+  },
+  logoWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '30px',
+  },
+  logoCircle: {
+    width: '64px',
+    height: '64px',
+    borderRadius: '50%',
+    background: 'linear-gradient(135deg, #f9d423, #e0a80d)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '28px',
+    boxShadow: '0 0 30px rgba(224,168,13,0.4)',
+  },
+  title: {
+    color: '#ffffff',
+    fontSize: '1.75rem',
+    fontWeight: '700',
+    textAlign: 'center',
+    margin: '0 0 6px 0',
+    letterSpacing: '-0.5px',
+  },
+  subtitle: {
+    color: 'rgba(255,255,255,0.45)',
+    fontSize: '0.875rem',
+    textAlign: 'center',
+    marginBottom: '36px',
+    letterSpacing: '0.5px',
+    textTransform: 'uppercase',
+  },
+  label: {
+    display: 'block',
+    color: 'rgba(255,255,255,0.6)',
+    fontSize: '0.75rem',
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: '1px',
+    marginBottom: '8px',
+  },
+  inputWrap: {
+    marginBottom: '22px',
+  },
+  input: {
+    width: '100%',
+    padding: '14px 16px',
+    background: 'rgba(255,255,255,0.07)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    borderRadius: '10px',
+    color: '#ffffff',
+    fontSize: '0.95rem',
+    outline: 'none',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+    boxSizing: 'border-box',
+  },
+  button: {
+    width: '100%',
+    padding: '15px',
+    background: 'linear-gradient(135deg, #f9d423, #e0a80d)',
+    color: '#1a1a2e',
+    border: 'none',
+    borderRadius: '10px',
+    fontWeight: '700',
+    fontSize: '1rem',
+    cursor: 'pointer',
+    letterSpacing: '0.5px',
+    transition: 'opacity 0.2s, transform 0.15s',
+    marginTop: '4px',
+  },
+  error: {
+    background: 'rgba(231,76,60,0.15)',
+    border: '1px solid rgba(231,76,60,0.4)',
+    color: '#ff6b6b',
+    borderRadius: '8px',
+    padding: '12px 16px',
+    fontSize: '0.875rem',
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  footer: {
+    color: 'rgba(255,255,255,0.25)',
+    fontSize: '0.75rem',
+    textAlign: 'center',
+    marginTop: '28px',
+    letterSpacing: '0.5px',
+  },
+};
+
 const AdminLogin = ({ setToken }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
     try {
       const url = `${process.env.REACT_APP_API_URL || 'https://my-portolio-ulg3.vercel.app'}/api/auth/login`;
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password })
+        body: JSON.stringify({ password }),
       });
       const data = await res.json();
       if (data.success) {
         localStorage.setItem('adminToken', data.token);
         setToken(data.token);
       } else {
-        setError(data.message || 'Login failed');
+        setError(data.message || 'Invalid credentials. Please try again.');
       }
     } catch (err) {
-      setError('Connection error');
+      setError('Connection error. Please check your network.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px', minHeight: '50vh' }}>
-      <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '15px', width: '300px', padding: '20px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', borderRadius: '8px', background: '#fff' }}>
-        <h2 style={{ textAlign: 'center', margin: '0 0 10px 0' }}>Admin Login</h2>
-        {error && <p style={{ color: 'red', textAlign: 'center', margin: 0 }}>{error}</p>}
-        <input 
-          type="password" 
-          placeholder="Password" 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ padding: '12px', border: '1px solid #ccc', borderRadius: '4px' }}
-        />
-        <button type="submit" style={{ padding: '12px', background: '#e0a80d', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 'bold', cursor: 'pointer' }}>Login</button>
-      </form>
+    <div style={styles.page}>
+      <div style={styles.card}>
+        <div style={styles.logoWrap}>
+          <div style={styles.logoCircle}>⚡</div>
+        </div>
+        <h1 style={styles.title}>Welcome Back</h1>
+        <p style={styles.subtitle}>Portfolio Admin Portal</p>
+
+        {error && <div style={styles.error}>{error}</div>}
+
+        <form onSubmit={handleLogin}>
+          <div style={styles.inputWrap}>
+            <label style={styles.label}>Admin Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={styles.input}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(224,168,13,0.6)';
+                e.target.style.boxShadow = '0 0 0 3px rgba(224,168,13,0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'rgba(255,255,255,0.12)';
+                e.target.style.boxShadow = 'none';
+              }}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            style={{ ...styles.button, opacity: loading ? 0.7 : 1 }}
+            onMouseEnter={(e) => { e.target.style.opacity = '0.9'; e.target.style.transform = 'translateY(-1px)'; }}
+            onMouseLeave={(e) => { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }}
+            disabled={loading}
+          >
+            {loading ? 'Authenticating...' : 'Sign In'}
+          </button>
+        </form>
+
+        <p style={styles.footer}>🔒 Secured Admin Access &mdash; Authorised Personnel Only</p>
+      </div>
     </div>
   );
 };
