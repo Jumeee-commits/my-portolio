@@ -2,7 +2,25 @@ import React, { useState, useEffect } from 'react';
 
 const schemas = {
   services: [
-    { name: 'iconName', label: 'Icon (MUI name)', type: 'text', required: true },
+    { 
+      name: 'iconName', 
+      label: 'Icon (MUI name)', 
+      type: 'select',
+      options: [
+        { value: '', label: 'Select an icon...' },
+        { value: 'Settings', label: 'Settings ⚙️' },
+        { value: 'CropRotate', label: 'CropRotate 🔄' },
+        { value: 'ViewInAr', label: 'ViewInAr 📦' },
+        { value: 'PieChart', label: 'PieChart 🥧' },
+        { value: 'Code', label: 'Code 💻' },
+        { value: 'BarChart', label: 'BarChart 📊' },
+        { value: 'CloudOutlined', label: 'Cloud ☁️' },
+        { value: 'FavoriteBorder', label: 'Favorite ❤️' },
+        { value: 'Public', label: 'Globe 🌐' },
+        { value: 'PersonOutlined', label: 'Person 👤' }
+      ],
+      required: true 
+    },
     { name: 'title', label: 'Title', type: 'text', required: true },
     { name: 'desc', label: 'Description', type: 'textarea', required: true },
   ],
@@ -539,6 +557,40 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                           e.target.style.boxShadow = 'none';
                         }}
                       />
+                    ) : field.type === 'select' ? (
+                      <select
+                        name={field.name}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                        required={field.required}
+                        style={{
+                          width: '100%',
+                          padding: '12px 14px',
+                          background: 'rgba(255,255,255,0.06)',
+                          border: '1px solid rgba(255,255,255,0.1)',
+                          borderRadius: '10px',
+                          color: '#e2e8f0',
+                          fontSize: '0.9rem',
+                          fontFamily: 'inherit',
+                          outline: 'none',
+                          transition: 'border-color 0.2s, box-shadow 0.2s',
+                          boxSizing: 'border-box',
+                        }}
+                        onFocus={(e) => {
+                          e.target.style.borderColor = `${accentColor.from}60`;
+                          e.target.style.boxShadow = `0 0 0 3px ${accentColor.from}18`;
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                          e.target.style.boxShadow = 'none';
+                        }}
+                      >
+                        {field.options && field.options.map((opt) => (
+                          <option key={opt.value} value={opt.value} style={{ background: '#1e1e4a', color: '#fff' }}>
+                            {opt.label}
+                          </option>
+                        ))}
+                      </select>
                     ) : (
                       <input
                         type={field.type}
