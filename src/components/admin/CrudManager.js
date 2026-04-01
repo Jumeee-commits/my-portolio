@@ -25,7 +25,7 @@ const schemas = {
     { name: 'desc', label: 'Description', type: 'textarea', required: true },
   ],
   portfolio: [
-    { name: 'cover', label: 'Cover Image URL', type: 'text', required: true },
+    { name: 'cover', label: 'Cover Image', type: 'image', required: true },
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'category', label: 'Category', type: 'text', required: true },
     { name: 'title', label: 'Title', type: 'text', required: true },
@@ -34,13 +34,13 @@ const schemas = {
     { name: 'title', label: 'Title', type: 'text', required: true },
     { name: 'author', label: 'Author', type: 'text', required: true },
     { name: 'date', label: 'Date', type: 'text', required: true },
-    { name: 'cover', label: 'Cover Image URL', type: 'text', required: true },
+    { name: 'cover', label: 'Cover Image', type: 'image', required: true },
     { name: 'desc', label: 'Description', type: 'textarea', required: true },
   ],
   testimonials: [
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'post', label: 'Role / Position', type: 'text', required: true },
-    { name: 'image', label: 'Image URL', type: 'text', required: true },
+    { name: 'image', label: 'Profile Photo', type: 'image', required: true },
     { name: 'text', label: 'Testimonial Text', type: 'textarea', required: true },
   ],
 };
@@ -61,6 +61,53 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
   const [formData, setFormData] = useState({});
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [saving, setSaving] = useState(false);
+
+  // Cloudinary Upload States
+  const [uploadingField, setUploadingField] = useState(null);
+  const [showConfig, setShowConfig] = useState(false);
+  const [config, setConfig] = useState(() => {
+    return JSON.parse(localStorage.getItem('cloudinary_config') || '{"cloudName":"","uploadPreset":""}');
+  });
+
+  const saveConfig = (newConfig) => {
+    setConfig(newConfig);
+    localStorage.setItem('cloudinary_config', JSON.stringify(newConfig));
+    setShowConfig(false);
+  };
+
+  const handleImageUpload = async (e, fieldName) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!config.cloudName || !config.uploadPreset) {
+      alert('Please configure your Cloudinary Cloud Name and Upload Preset first (top right of this panel).');
+      setShowConfig(true);
+      return;
+    }
+
+    setUploadingField(fieldName);
+    const data = new FormData();
+    data.append('file', file);
+    data.append('upload_preset', config.uploadPreset);
+
+    try {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${config.cloudName}/image/upload`, {
+        method: 'POST',
+        body: data,
+      });
+      const fileData = await res.json();
+      if (fileData.secure_url) {
+        setFormData(prev => ({ ...prev, [fieldName]: fileData.secure_url }));
+      } else {
+        alert('Upload failed: ' + (fileData.error?.message || 'Check your configuration'));
+      }
+    } catch (err) {
+      alert('Upload error: check your connection');
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
 
   const API_URL = process.env.REACT_APP_API_URL || 'https://my-portolio-ulg3.vercel.app';
   const schema = schemas[resource];
@@ -254,7 +301,26 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
           <span style={{ fontSize: '18px', lineHeight: 1 }}>＋</span>
           Add New
         </button>
+
+        {/* Cloudinary Config Button */}
+        <button
+          onClick={() => setShowConfig(true)}
+          style={{
+            padding: '8px 16px',
+            background: 'rgba(255,255,255,0.05)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            color: 'rgba(255,255,255,0.6)',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontSize: '0.8rem',
+            fontWeight: '600',
+            marginLeft: 'auto'
+          }}
+        >
+          ⚙️ Upload Setup
+        </button>
       </div>
+
 
       {/* Table */}
       <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.07)' }}>
@@ -591,6 +657,80 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                           </option>
                         ))}
                       </select>
+                    ) : field.type === 'image' ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                        {/* URL / Preview Box */}
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                          <div
+                            style={{
+                              width: '80px',
+                              height: '80px',
+                              background: 'rgba(0,0,0,0.2)',
+                              border: '1px solid rgba(255,255,255,0.1)',
+                              borderRadius: '12px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              overflow: 'hidden',
+                              flexShrink: 0
+                            }}
+                          >
+                            {formData[field.name] ? (
+                              <img src={formData[field.name]} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            ) : (
+                              <span style={{ fontSize: '20px', opacity: 0.2 }}>🖼️</span>
+                            )}
+                          </div>
+                          
+                          <div style={{ flex: 1 }}>
+                            <input
+                              type="text"
+                              name={field.name}
+                              value={formData[field.name]}
+                              onChange={handleChange}
+                              placeholder="Paste image URL here..."
+                              required={field.required}
+                              style={{
+                                width: '100%',
+                                padding: '10px 14px',
+                                background: 'rgba(255,255,255,0.06)',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                borderRadius: '10px',
+                                color: '#e2e8f0',
+                                fontSize: '0.85rem',
+                                outline: 'none',
+                                boxSizing: 'border-box',
+                                marginBottom: '8px'
+                              }}
+                            />
+                            
+                            <label
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                padding: '8px 16px',
+                                background: uploadingField === field.name ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.08)',
+                                border: '1px solid rgba(255,255,255,0.15)',
+                                color: uploadingField === field.name ? 'rgba(255,255,255,0.3)' : '#fff',
+                                borderRadius: '8px',
+                                cursor: uploadingField === field.name ? 'default' : 'pointer',
+                                fontSize: '0.85rem',
+                                fontWeight: '600'
+                              }}
+                            >
+                              {uploadingField === field.name ? '⌛ Uploading...' : '📁 Select Photo'}
+                              <input
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                disabled={uploadingField === field.name}
+                                onChange={(e) => handleImageUpload(e, field.name)}
+                              />
+                            </label>
+                          </div>
+                        </div>
+                      </div>
                     ) : (
                       <input
                         type={field.type}
@@ -677,6 +817,67 @@ const CrudManager = ({ resource, token, accentColor = { from: '#f9d423', to: '#e
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── Configuration Modal ── */}
+      {showConfig && (
+        <div
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, 
+            background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1100, padding: '20px'
+          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowConfig(false); }}
+        >
+          <div
+            style={{
+              background: '#1a1a3e', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '20px',
+              width: '100%', maxWidth: '440px', padding: '32px', boxShadow: '0 30px 80px rgba(0,0,0,0.6)'
+            }}
+          >
+            <h2 style={{ margin: '0 0 12px 0', color: '#fff', fontSize: '1.25rem' }}>Cloudinary Setup ⚙️</h2>
+            <p style={{ margin: '0 0 24px 0', color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', lineHeight: 1.5 }}>
+              To enable computer uploads, create a free Cloudinary account and get your Cloud Name and an "Unsigned Upload Preset" from settings.
+            </p>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div>
+                <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '8px' }}>Cloud Name</label>
+                <input 
+                  type="text"
+                  value={config.cloudName}
+                  onChange={(e) => setConfig({ ...config, cloudName: e.target.value })}
+                  placeholder="e.g. dxyz123ab"
+                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div>
+                <label style={{ display: 'block', color: 'rgba(255,255,255,0.6)', fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', marginBottom: '8px' }}>Unsigned Upload Preset</label>
+                <input 
+                  type="text"
+                  value={config.uploadPreset}
+                  onChange={(e) => setConfig({ ...config, uploadPreset: e.target.value })}
+                  placeholder="e.g. portfolio_preset"
+                  style={{ width: '100%', padding: '12px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', color: '#fff', boxSizing: 'border-box' }}
+                />
+              </div>
+              <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                <button 
+                  onClick={() => setShowConfig(false)}
+                  style={{ flex: 1, padding: '12px', background: 'rgba(255,255,255,0.07)', border: 'none', borderRadius: '10px', color: '#fff', cursor: 'pointer', fontWeight: 600 }}
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={() => saveConfig(config)}
+                  style={{ flex: 1, padding: '12px', background: `linear-gradient(135deg, ${accentColor.from}, ${accentColor.to})`, border: 'none', borderRadius: '10px', color: '#1a1a2e', cursor: 'pointer', fontWeight: 700 }}
+                >
+                  Save Settings
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
