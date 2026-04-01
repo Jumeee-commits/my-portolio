@@ -36,7 +36,8 @@ export const home = [
     name: "ALAO MICHAEL",
     post: "WEB DEVELOPER",
     design: "DIGITAL MARKETER",
-    desc: "As a digital marketer, I have a passion for leveraging the power of digital channels to drive brand awareness, engage target audiences, and generate leads. With a keen eye for aesthetics and a passion for creating visually stunning websites, I am a web designer dedicated to delivering seamless user experiences",
+    specialist: "E-COMMERCE OPTIMIZATION SPECIALIST",
+    desc: "Results-driven Web Developer, Digital Marketer, and E-commerce Optimization Specialist with expertise in building high-performing websites, executing data-driven marketing strategies, and optimizing online stores for maximum conversion and revenue growth. Skilled in UX improvement, performance analytics, SEO, paid campaigns, and merchandising strategies that enhance user experience and drive measurable business results",
   },
 ]
 export const about = [
@@ -234,6 +235,6 @@ export const social = [
     icon: <YouTube />,
   },
   {
-    icon: <LinkedIn/>
+    icon: <LinkedIn />
   },
 ]

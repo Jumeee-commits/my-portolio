@@ -9,7 +9,7 @@ export const Hero = () => {
         <div key={i} className='heroContainer'>
             <h3 data-aos="fade-right">{val.text}</h3>
             <h1>
-                <Typewriter options={{ strings: [`${val.name}`,  `${val.design}`, `${val.post}`],
+                <Typewriter options={{ strings: [`${val.name}`,  `${val.design}`, `${val.specialist}`, `${val.post}`],
                 autoStart: true, loop: true }} />
             </h1>
             <p data-aos="fade-left">{val.desc}</p>
