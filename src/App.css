@@ -312,6 +312,26 @@ article .box:hover .overlay,
 article .box:hover .overlay::after {
   opacity: 1;
 }
+.overlayIcons {
+  display: flex;
+  gap: 20px;
+  margin-top: 15px;
+  z-index: 5;
+}
+.overlayIcons a {
+  color: var(--white);
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.overlayIcons a:hover {
+  color: var(--black);
+  transform: scale(1.2);
+}
+.overlayIcons svg {
+  font-size: 30px;
+}
 .catButton {
   display: flex;
   justify-content: center;

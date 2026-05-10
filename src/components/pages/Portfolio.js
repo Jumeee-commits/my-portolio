@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Visibility } from '@mui/icons-material'
+import { Visibility, GitHub, Public } from '@mui/icons-material'
 import { Heading } from '../common/Heading'
 import { useFetch } from '../../hooks/useFetch'
 
@@ -48,7 +48,19 @@ export const Portfolio = () => {
                 <div className='overlay'>
                     <h3>{item.title}</h3>
                     <span>{item.name}</span>
-                    <Visibility />
+                    <div className='overlayIcons'>
+                        {item.githubLink && (
+                            <a href={item.githubLink} target='_blank' rel='noreferrer'>
+                                <GitHub />
+                            </a>
+                        )}
+                        {item.webLink && (
+                            <a href={item.webLink} target='_blank' rel='noreferrer'>
+                                <Public />
+                            </a>
+                        )}
+                        {!item.githubLink && !item.webLink && <Visibility />}
+                    </div>
                 </div>
             </div>
         ))}

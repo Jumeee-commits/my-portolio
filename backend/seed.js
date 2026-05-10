@@ -19,12 +19,12 @@ const services = [
 ];
 
 const portfolio = [
-  { id: 1, cover: "../images/port1.jpg", name: "Brand", category: "marketing", title: "Alao Logo" },
-  { id: 2, cover: "../images/port2.jpg", name: "Brand", category: "design", title: "Alao Logo" },
-  { id: 3, cover: "../images/port3.jpg", name: "Brand", category: "development", title: "Alao Logo" },
-  { id: 4, cover: "../images/port4.jpg", name: "Brand", category: "marketing", title: "Alao Logo" },
-  { id: 5, cover: "../images/port5.jpg", name: "Brand", category: "design", title: "Alao Logo" },
-  { id: 6, cover: "../images/port6.jpg", name: "Brand", category: "development", title: "Alao Logo" },
+  { id: 1, cover: "../images/port1.jpg", name: "Brand", category: "marketing", title: "Alao Logo", githubLink: "https://github.com/Jumeee-commits", webLink: "https://github.com/Jumeee-commits" },
+  { id: 2, cover: "../images/port2.jpg", name: "Brand", category: "design", title: "Alao Logo", githubLink: "https://github.com/Jumeee-commits", webLink: "https://github.com/Jumeee-commits" },
+  { id: 3, cover: "../images/port3.jpg", name: "Brand", category: "development", title: "Alao Logo", githubLink: "https://github.com/Jumeee-commits", webLink: "https://github.com/Jumeee-commits" },
+  { id: 4, cover: "../images/port4.jpg", name: "Brand", category: "marketing", title: "Alao Logo", githubLink: "https://github.com/Jumeee-commits", webLink: "https://github.com/Jumeee-commits" },
+  { id: 5, cover: "../images/port5.jpg", name: "Brand", category: "design", title: "Alao Logo", githubLink: "https://github.com/Jumeee-commits", webLink: "https://github.com/Jumeee-commits" },
+  { id: 6, cover: "../images/port6.jpg", name: "Brand", category: "development", title: "Alao Logo", githubLink: "https://github.com/Jumeee-commits", webLink: "https://github.com/Jumeee-commits" },
 ];
 
 const testimonials = [

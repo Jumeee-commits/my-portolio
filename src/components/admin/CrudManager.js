@@ -29,6 +29,8 @@ const schemas = {
     { name: 'name', label: 'Name', type: 'text', required: true },
     { name: 'category', label: 'Category', type: 'text', required: true },
     { name: 'title', label: 'Title', type: 'text', required: true },
+    { name: 'githubLink', label: 'GitHub Link', type: 'text', required: false },
+    { name: 'webLink', label: 'Web / Live Link', type: 'text', required: false },
   ],
   blog: [
     { name: 'title', label: 'Title', type: 'text', required: true },

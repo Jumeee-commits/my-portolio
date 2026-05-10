@@ -118,6 +118,8 @@ export const portfolio = [
     name: "Brand",
     category: "marketing",
     title: "Alao Logo",
+    githubLink: "https://github.com/Jumeee-commits",
+    webLink: "https://github.com/Jumeee-commits",
   },
   {
     id: 2,
@@ -125,6 +127,8 @@ export const portfolio = [
     name: "Brand",
     category: "design",
     title: "Alao Logo",
+    githubLink: "https://github.com/Jumeee-commits",
+    webLink: "https://github.com/Jumeee-commits",
   },
   {
     id: 3,
@@ -132,6 +136,8 @@ export const portfolio = [
     name: "Brand",
     category: "development",
     title: "Alao Logo",
+    githubLink: "https://github.com/Jumeee-commits",
+    webLink: "https://github.com/Jumeee-commits",
   },
   {
     id: 4,
@@ -139,6 +145,8 @@ export const portfolio = [
     name: "Brand",
     category: "marketing",
     title: "Alao Logo",
+    githubLink: "https://github.com/Jumeee-commits",
+    webLink: "https://github.com/Jumeee-commits",
   },
   {
     id: 5,
@@ -146,6 +154,8 @@ export const portfolio = [
     name: "Brand",
     category: "design",
     title: "Alao Logo",
+    githubLink: "https://github.com/Jumeee-commits",
+    webLink: "https://github.com/Jumeee-commits",
   },
   {
     id: 6,
@@ -153,6 +163,8 @@ export const portfolio = [
     name: "Brand",
     category: "development",
     title: "Alao Logo",
+    githubLink: "https://github.com/Jumeee-commits",
+    webLink: "https://github.com/Jumeee-commits",
   },
 ]
 export const testimonials = [
