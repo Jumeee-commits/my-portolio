@@ -67,7 +67,7 @@ const styles = {
   },
 };
 
-const AdminLogin = ({ onLogin }) => {
+const AdminLogin = ({ setToken }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
