@@ -17,7 +17,13 @@ export const Blog = () => {
                 return(
                 <div key={item.id} className='box' data-aos="flip-left">
                     <div className='img' data-aos="flip-up">
-                        <img src={item.cover} alt=''data-aos="flip-down"/>
+                        {item.webLink ? (
+                            <a href={item.webLink} target="_blank" rel="noreferrer">
+                                <img src={item.cover} alt={item.title} data-aos="flip-down"/>
+                            </a>
+                        ) : (
+                            <img src={item.cover} alt={item.title} data-aos="flip-down"/>
+                        )}
                     </div>
                     <div className='text'>
                         <h3 data-aos="flip right">{item.title}</h3>

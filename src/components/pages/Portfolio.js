@@ -43,19 +43,42 @@ export const Portfolio = () => {
     <div className="content grid3">
         {list.map((item, index) => (
             <div key={item._id || index} className='box' data-aos="fade-up">
-                <Link to={`/portfolio/${item._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <div className='img'>
-                        <img src= {item.cover} alt='' />
-                    </div>
-                    <div className='overlay'>
+                <div className='img'>
+                    <img src={item.cover} alt={item.title} />
+                </div>
+                <div className='overlay'>
+                    {/* Background link that covers the whole image/overlay area */}
+                    {item.webLink && (
+                        <a 
+                            href={item.webLink} 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}
+                        >
+                            <span style={{ display: 'none' }}>View Live Site</span>
+                        </a>
+                    )}
+                    
+                    <div style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
                         <h3>{item.title}</h3>
                         <span>{item.name}</span>
                         <div className='overlayIcons'>
-                            {/* We can still have internal icons if we stop propagation, but for now let's just make the whole card a link */}
-                            <Visibility />
+                            <Link to={`/portfolio/${item._id}`} style={{ color: 'inherit' }}>
+                                <Visibility />
+                            </Link>
+                            {item.githubLink && (
+                                <a href={item.githubLink} target="_blank" rel="noreferrer" style={{ color: 'inherit' }} onClick={(e) => e.stopPropagation()}>
+                                    <GitHub />
+                                </a>
+                            )}
+                            {item.webLink && (
+                                <a href={item.webLink} target="_blank" rel="noreferrer" style={{ color: 'inherit' }} onClick={(e) => e.stopPropagation()}>
+                                    <Public />
+                                </a>
+                            )}
                         </div>
                     </div>
-                </Link>
+                </div>
             </div>
         ))}
     </div>

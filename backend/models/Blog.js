@@ -7,6 +7,7 @@ const BlogSchema = new mongoose.Schema({
   author: { type: String, required: true },
   desc: { type: String, required: true },
   cover: { type: String, required: true },
+  webLink: { type: String },
 });
 
 module.exports = mongoose.model('Blog', BlogSchema);

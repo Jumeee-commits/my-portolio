@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getPortfolio, createPortfolio, updatePortfolio, deletePortfolio } = require('../controllers/portfolioController');
+const { getPortfolio, getSinglePortfolio, createPortfolio, updatePortfolio, deletePortfolio } = require('../controllers/portfolioController');
 const { protect } = require('../middleware/auth');
 
 router.route('/')

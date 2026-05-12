@@ -5,6 +5,7 @@ const ServiceSchema = new mongoose.Schema({
   iconName: { type: String, required: true }, // MUI icon name as string
   title: { type: String, required: true },
   desc: { type: String, required: true },
+  webLink: { type: String },
 });
 
 module.exports = mongoose.model('Service', ServiceSchema);

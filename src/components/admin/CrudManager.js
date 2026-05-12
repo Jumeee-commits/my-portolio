@@ -23,6 +23,7 @@ const schemas = {
     },
     { name: 'title', label: 'Title', type: 'text', required: true },
     { name: 'desc', label: 'Description', type: 'textarea', required: true },
+    { name: 'webLink', label: 'External Link', type: 'text', required: false },
   ],
   portfolio: [
     { name: 'cover', label: 'Cover Image', type: 'image', required: true },
@@ -40,6 +41,7 @@ const schemas = {
     { name: 'date', label: 'Date', type: 'text', required: true },
     { name: 'cover', label: 'Cover Image', type: 'image', required: true },
     { name: 'desc', label: 'Description', type: 'textarea', required: true },
+    { name: 'webLink', label: 'External Link', type: 'text', required: false },
   ],
   testimonials: [
     { name: 'name', label: 'Name', type: 'text', required: true },
