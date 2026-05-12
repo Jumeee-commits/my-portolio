@@ -11,6 +11,7 @@ import { Home } from "../home/Home";
 import { About } from "./About";
 import { Services } from "./Services";
 import { Portfolio } from './Portfolio';
+import { PortfolioDetail } from './PortfolioDetail';
 import { Testimonials } from './Testimonials';
 import { Blog } from './Blog';
 import { Contact } from './Contact';
@@ -41,6 +42,7 @@ import { AdminApp } from '../admin/AdminApp';
         <Route exact path='/about' component={About}/>  
         <Route exact path='/services' component={Services}/>
         <Route exact path='/portfolio' component={Portfolio}/>
+        <Route exact path='/portfolio/:id' component={PortfolioDetail}/>
         <Route exact path='/testimonials' component={Testimonials}/>
         <Route exact path='/blog' component={Blog}/>
         <Route exact path='/contact' component={Contact}/>

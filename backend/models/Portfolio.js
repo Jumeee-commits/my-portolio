@@ -8,6 +8,8 @@ const PortfolioSchema = new mongoose.Schema({
   title: { type: String, required: true },
   githubLink: { type: String },
   webLink: { type: String },
+  description: { type: String },
+  techStack: { type: String }, // Storing as string for simplicity in admin panel
 });
 
 module.exports = mongoose.model('Portfolio', PortfolioSchema);

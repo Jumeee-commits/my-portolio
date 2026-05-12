@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { Visibility, GitHub, Public } from '@mui/icons-material'
 import { Heading } from '../common/Heading'
 import { useFetch } from '../../hooks/useFetch'
@@ -42,26 +43,19 @@ export const Portfolio = () => {
     <div className="content grid3">
         {list.map((item, index) => (
             <div key={item._id || index} className='box' data-aos="fade-up">
-                <div className='img'>
-                    <img src= {item.cover} alt='' />
-                </div>
-                <div className='overlay'>
-                    <h3>{item.title}</h3>
-                    <span>{item.name}</span>
-                    <div className='overlayIcons'>
-                        {item.githubLink && (
-                            <a href={item.githubLink} target='_blank' rel='noreferrer'>
-                                <GitHub />
-                            </a>
-                        )}
-                        {item.webLink && (
-                            <a href={item.webLink} target='_blank' rel='noreferrer'>
-                                <Public />
-                            </a>
-                        )}
-                        {!item.githubLink && !item.webLink && <Visibility />}
+                <Link to={`/portfolio/${item._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div className='img'>
+                        <img src= {item.cover} alt='' />
                     </div>
-                </div>
+                    <div className='overlay'>
+                        <h3>{item.title}</h3>
+                        <span>{item.name}</span>
+                        <div className='overlayIcons'>
+                            {/* We can still have internal icons if we stop propagation, but for now let's just make the whole card a link */}
+                            <Visibility />
+                        </div>
+                    </div>
+                </Link>
             </div>
         ))}
     </div>

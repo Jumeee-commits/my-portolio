@@ -31,6 +31,8 @@ const schemas = {
     { name: 'title', label: 'Title', type: 'text', required: true },
     { name: 'githubLink', label: 'GitHub Link', type: 'text', required: false },
     { name: 'webLink', label: 'Web / Live Link', type: 'text', required: false },
+    { name: 'description', label: 'Description', type: 'textarea', required: false },
+    { name: 'techStack', label: 'Tech Stack (comma separated)', type: 'text', required: false },
   ],
   blog: [
     { name: 'title', label: 'Title', type: 'text', required: true },

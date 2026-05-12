@@ -9,6 +9,16 @@ const getPortfolio = async (req, res, next) => {
   }
 };
 
+const getSinglePortfolio = async (req, res, next) => {
+  try {
+    const item = await Portfolio.findById(req.params.id);
+    if (!item) return res.status(404).json({ success: false, message: 'Not found' });
+    res.status(200).json({ success: true, data: item });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createPortfolio = async (req, res, next) => {
   try {
     const item = await Portfolio.create(req.body);
@@ -38,4 +48,4 @@ const deletePortfolio = async (req, res, next) => {
   }
 };
 
-module.exports = { getPortfolio, createPortfolio, updatePortfolio, deletePortfolio };
+module.exports = { getPortfolio, getSinglePortfolio, createPortfolio, updatePortfolio, deletePortfolio };

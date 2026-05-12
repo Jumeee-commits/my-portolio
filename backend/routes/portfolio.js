@@ -8,6 +8,7 @@ router.route('/')
   .post(protect, createPortfolio);
 
 router.route('/:id')
+  .get(getSinglePortfolio)
   .put(protect, updatePortfolio)
   .delete(protect, deletePortfolio);
 
